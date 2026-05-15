@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
+import { saveToHistory } from '../utils/history';
 
 const BEIGE = '#F5F0E8';
 const BLACK = '#1A1A1A';
@@ -25,8 +26,22 @@ export default function CameraScreen() {
 
   const handleCapture = async () => {
     if (!cameraRef.current) return;
-    await cameraRef.current.takePictureAsync({ quality: 0.8 });
+    let photoUri: string | undefined;
+    try {
+      const photo = await cameraRef.current.takePictureAsync({ quality: 0.8 });
+      photoUri = photo?.uri;
+    } catch (e) {}
     setScanning(false);
+    try {
+      await saveToHistory({
+        brand: 'Ralph Lauren',
+        item: 'Polo Shirt — Navy, Size M',
+        recommendation: 'BUY',
+        confidence: 87,
+        suggestedPrice: '$32–38',
+        photoUri,
+      });
+    } catch (e) {}
     navigation.navigate('Results' as never);
   };
 
