@@ -1,16 +1,19 @@
 import { View, Text, StyleSheet } from 'react-native';
 
+const BEIGE = '#F5F0E8';
+const BLACK = '#1A1A1A';
+
 export default function SettingsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Settings</Text>
+      <Text style={styles.title}>Settings</Text>
       <Text style={styles.sub}>App preferences will live here</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' },
-  text: { fontSize: 28, fontWeight: 'bold' },
-  sub: { fontSize: 14, color: '#888', marginTop: 8 },
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: BEIGE, paddingHorizontal: 32 },
+  title: { fontSize: 28, fontWeight: '900', color: BLACK, letterSpacing: 4, marginBottom: 10 },
+  sub: { fontSize: 13, color: BLACK, opacity: 0.4, letterSpacing: 1, textAlign: 'center' },
 });
