@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import { useNavigation } from '@react-navigation/native';
 
 const BEIGE = '#F5F0E8';
 const BLACK = '#1A1A1A';
@@ -9,6 +10,7 @@ export default function CameraScreen() {
   const [scanning, setScanning] = useState(false);
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
+  const navigation = useNavigation();
 
   const handleScan = async () => {
     if (!permission?.granted) {
@@ -25,7 +27,7 @@ export default function CameraScreen() {
     if (!cameraRef.current) return;
     await cameraRef.current.takePictureAsync({ quality: 0.8 });
     setScanning(false);
-    Alert.alert('Photo captured!', 'AI analysis coming soon in a future session.');
+    navigation.navigate('Results' as never);
   };
 
   if (scanning) {
