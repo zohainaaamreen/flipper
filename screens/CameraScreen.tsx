@@ -1,6 +1,57 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useState, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+
+const BEIGE = '#F5F0E8';
+const BLACK = '#1A1A1A';
 
 export default function CameraScreen() {
+  const [scanning, setScanning] = useState(false);
+  const [permission, requestPermission] = useCameraPermissions();
+  const cameraRef = useRef<CameraView>(null);
+
+  const handleScan = async () => {
+    if (!permission?.granted) {
+      const result = await requestPermission();
+      if (!result.granted) {
+        Alert.alert('Camera access needed', 'Please allow camera access in your iPhone settings to scan labels.');
+        return;
+      }
+    }
+    setScanning(true);
+  };
+
+  const handleCapture = async () => {
+    if (!cameraRef.current) return;
+    await cameraRef.current.takePictureAsync({ quality: 0.8 });
+    setScanning(false);
+    Alert.alert('Photo captured!', 'AI analysis coming soon in a future session.');
+  };
+
+  if (scanning) {
+    return (
+      <View style={styles.cameraContainer}>
+        <CameraView style={styles.camera} facing="back" ref={cameraRef}>
+          <View style={styles.overlay}>
+            <View style={styles.scanFrame}>
+              <View style={[styles.corner, styles.topLeft]} />
+              <View style={[styles.corner, styles.topRight]} />
+              <View style={[styles.corner, styles.bottomLeft]} />
+              <View style={[styles.corner, styles.bottomRight]} />
+              <Text style={styles.scanHint}>point at a clothing label</Text>
+            </View>
+            <TouchableOpacity style={styles.captureButton} onPress={handleCapture}>
+              <Text style={styles.captureText}>Capture</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cancelButton} onPress={() => setScanning(false)}>
+              <Text style={styles.cancelText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </CameraView>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>FLIPPER</Text>
@@ -14,15 +65,13 @@ export default function CameraScreen() {
         <Text style={styles.viewfinderText}>point at a clothing label</Text>
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleScan}>
         <Text style={styles.buttonText}>Scan Label</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-const BEIGE = '#F5F0E8';
-const BLACK = '#1A1A1A';
 const CORNER = 28;
 const BORDER = 3;
 
@@ -61,30 +110,10 @@ const styles = StyleSheet.create({
     height: CORNER,
     borderColor: BLACK,
   },
-  topLeft: {
-    top: 0,
-    left: 0,
-    borderTopWidth: BORDER,
-    borderLeftWidth: BORDER,
-  },
-  topRight: {
-    top: 0,
-    right: 0,
-    borderTopWidth: BORDER,
-    borderRightWidth: BORDER,
-  },
-  bottomLeft: {
-    bottom: 0,
-    left: 0,
-    borderBottomWidth: BORDER,
-    borderLeftWidth: BORDER,
-  },
-  bottomRight: {
-    bottom: 0,
-    right: 0,
-    borderBottomWidth: BORDER,
-    borderRightWidth: BORDER,
-  },
+  topLeft: { top: 0, left: 0, borderTopWidth: BORDER, borderLeftWidth: BORDER },
+  topRight: { top: 0, right: 0, borderTopWidth: BORDER, borderRightWidth: BORDER },
+  bottomLeft: { bottom: 0, left: 0, borderBottomWidth: BORDER, borderLeftWidth: BORDER },
+  bottomRight: { bottom: 0, right: 0, borderBottomWidth: BORDER, borderRightWidth: BORDER },
   viewfinderText: {
     fontSize: 13,
     color: BLACK,
@@ -102,5 +131,51 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: 3,
+  },
+  cameraContainer: {
+    flex: 1,
+  },
+  camera: {
+    flex: 1,
+  },
+  overlay: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scanFrame: {
+    width: 260,
+    height: 260,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 48,
+  },
+  scanHint: {
+    fontSize: 13,
+    color: '#fff',
+    opacity: 0.8,
+    letterSpacing: 1,
+  },
+  captureButton: {
+    backgroundColor: '#fff',
+    paddingVertical: 18,
+    paddingHorizontal: 64,
+    borderRadius: 4,
+    marginBottom: 16,
+  },
+  captureText: {
+    color: BLACK,
+    fontSize: 16,
+    fontWeight: '700',
+    letterSpacing: 3,
+  },
+  cancelButton: {
+    paddingVertical: 10,
+  },
+  cancelText: {
+    color: '#fff',
+    fontSize: 14,
+    opacity: 0.7,
+    letterSpacing: 1,
   },
 });
