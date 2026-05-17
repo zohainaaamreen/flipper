@@ -1,5 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export type PlatformPrices = {
+  eBay: string;
+  Poshmark: string;
+  Depop: string;
+  Mercari: string;
+};
+
 export type ScanRecord = {
   id: string;
   brand: string;
@@ -7,7 +14,15 @@ export type ScanRecord = {
   recommendation: 'BUY' | 'PASS';
   confidence: number;
   suggestedPrice: string;
+  reasoning?: string;
+  platformPrices?: PlatformPrices;
+  material?: string;
+  condition?: string;
+  styleCore?: string;
   date: string;
+  labelPhotoUri?: string;
+  compositionPhotoUri?: string;
+  stylePhotoUri?: string;
   photoUri?: string;
 };
 

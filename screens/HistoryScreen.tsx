@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { loadHistory, clearHistory, ScanRecord } from '../utils/history';
 
 const BEIGE = '#F5F0E8';
@@ -10,6 +9,7 @@ const GREEN = '#2D6A4F';
 const MUTED = '#9C8F7E';
 
 export default function HistoryScreen() {
+  const navigation = useNavigation();
   const [scans, setScans] = useState<ScanRecord[]>([]);
 
   useFocusEffect(
@@ -39,7 +39,7 @@ export default function HistoryScreen() {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <View style={styles.card}>
+          <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Results' as never, { scanId: item.id } as never)}>
             <View style={styles.cardInner}>
               {item.photoUri && (
                 <Image source={{ uri: item.photoUri }} style={styles.thumbnail} />
@@ -58,7 +58,7 @@ export default function HistoryScreen() {
                 </View>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
       <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
