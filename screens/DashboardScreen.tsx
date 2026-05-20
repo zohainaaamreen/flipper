@@ -6,10 +6,18 @@ import {
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { loadHistory, clearHistory, ScanRecord } from '../utils/history';
 
-const BEIGE = '#F5F0E8';
-const BLACK = '#1A1A1A';
+const BG = '#FFFFFF';
+const CARD = '#F5F5F5';
+const ACCENT = '#600000';
+const TEXT = '#000000';
+const MUTED = '#6B6B6B';
+const BORDER = '#E8E8E8';
 const GREEN = '#2D6A4F';
-const MUTED = '#9C8F7E';
+
+const SERIF = 'CormorantGaramond_700Bold';
+const SANS = 'Poppins_400Regular';
+const SANS_SEMI = 'Poppins_600SemiBold';
+const SANS_BOLD = 'Poppins_700Bold';
 
 const TIPS = [
   'Natural fibers (wool, cotton, linen, silk) always command higher resale prices than synthetics.',
@@ -65,7 +73,7 @@ export default function DashboardScreen() {
           <Text style={styles.statLabel}>Buy Rate</Text>
         </View>
         <View style={styles.statCard}>
-          <Text style={[styles.statValue, { color: GREEN }]}>${estValue}</Text>
+          <Text style={[styles.statValue, { color: ACCENT }]}>${estValue}</Text>
           <Text style={styles.statLabel}>Est. Value</Text>
         </View>
       </View>
@@ -134,62 +142,34 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
-  scroll: { flex: 1, backgroundColor: BEIGE },
+  scroll: { flex: 1, backgroundColor: BG },
   container: { padding: 24, paddingTop: 32, paddingBottom: 48 },
-  pageTitle: {
-    fontSize: 28, fontWeight: '900', color: BLACK,
-    letterSpacing: 8, marginBottom: 24,
-  },
+  pageTitle: { fontFamily: SERIF, fontSize: 32, color: TEXT, letterSpacing: 6, marginBottom: 24 },
   statsRow: { flexDirection: 'row', gap: 10, marginBottom: 20 },
-  statCard: {
-    flex: 1, backgroundColor: '#EDE8DF',
-    borderRadius: 6, padding: 14, alignItems: 'center',
-  },
-  statValue: { fontSize: 24, fontWeight: '900', color: BLACK, letterSpacing: 1 },
-  statLabel: { fontSize: 10, color: MUTED, letterSpacing: 1, marginTop: 4 },
-  tipBox: {
-    backgroundColor: BLACK, borderRadius: 6,
-    padding: 16, marginBottom: 8,
-  },
-  tipLabel: {
-    fontSize: 10, color: BEIGE, opacity: 0.5,
-    letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8,
-  },
-  tipText: { fontSize: 13, color: BEIGE, lineHeight: 19, opacity: 0.9 },
-  divider: { height: 1, backgroundColor: '#E0D9CE', marginVertical: 24 },
-  sectionTitle: {
-    fontSize: 11, color: MUTED, letterSpacing: 2,
-    textTransform: 'uppercase', marginBottom: 16,
-  },
+  statCard: { flex: 1, backgroundColor: CARD, borderRadius: 6, padding: 14, alignItems: 'center' },
+  statValue: { fontFamily: SANS_BOLD, fontSize: 24, color: TEXT, letterSpacing: 1 },
+  statLabel: { fontFamily: SANS, fontSize: 10, color: MUTED, letterSpacing: 1, marginTop: 4 },
+  tipBox: { backgroundColor: ACCENT, borderRadius: 6, padding: 16, marginBottom: 8 },
+  tipLabel: { fontFamily: SANS_SEMI, fontSize: 10, color: '#fff', opacity: 0.65, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8 },
+  tipText: { fontFamily: SANS, fontSize: 13, color: '#fff', lineHeight: 20, opacity: 0.92 },
+  divider: { height: 1, backgroundColor: BORDER, marginVertical: 24 },
+  sectionTitle: { fontFamily: SANS_SEMI, fontSize: 11, color: MUTED, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 16 },
   empty: { alignItems: 'center', paddingVertical: 32, gap: 16 },
-  emptyText: { fontSize: 15, color: MUTED },
-  scanBtn: {
-    backgroundColor: BLACK, paddingVertical: 14,
-    paddingHorizontal: 40, borderRadius: 4,
-  },
-  scanBtnText: { color: BEIGE, fontSize: 14, fontWeight: '700', letterSpacing: 2 },
-  card: {
-    backgroundColor: '#EDE8DF', borderRadius: 6,
-    overflow: 'hidden', marginBottom: 10,
-  },
+  emptyText: { fontFamily: SANS, fontSize: 15, color: MUTED },
+  scanBtn: { backgroundColor: ACCENT, paddingVertical: 14, paddingHorizontal: 40, borderRadius: 4 },
+  scanBtnText: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 14, letterSpacing: 2 },
+  card: { backgroundColor: CARD, borderRadius: 6, overflow: 'hidden', marginBottom: 10 },
   cardInner: { flexDirection: 'row' },
   thumbnail: { width: 90, height: 90 },
   cardContent: { flex: 1, padding: 12 },
-  cardTop: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    alignItems: 'center', marginBottom: 4,
-  },
-  brand: { fontSize: 15, fontWeight: '900', color: BLACK, letterSpacing: 1 },
+  cardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 },
+  brand: { fontFamily: SANS_BOLD, fontSize: 15, color: TEXT, letterSpacing: 0.5 },
   badge: { paddingVertical: 3, paddingHorizontal: 8, borderRadius: 3 },
-  badgeText: { color: '#fff', fontSize: 10, fontWeight: '700', letterSpacing: 1 },
-  itemText: { fontSize: 12, color: MUTED, marginBottom: 4 },
-  styleCore: { fontSize: 11, color: BLACK, opacity: 0.5, marginBottom: 6, fontStyle: 'italic' },
+  badgeText: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 10, letterSpacing: 1 },
+  itemText: { fontFamily: SANS, fontSize: 12, color: MUTED, marginBottom: 4 },
+  styleCore: { fontFamily: SANS, fontSize: 11, color: TEXT, opacity: 0.45, marginBottom: 6, fontStyle: 'italic' },
   cardBottom: { flexDirection: 'row', justifyContent: 'space-between' },
-  meta: { fontSize: 10, color: MUTED },
-  clearButton: {
-    marginTop: 16, padding: 14,
-    borderWidth: 1, borderColor: '#C0392B',
-    borderRadius: 4, alignItems: 'center',
-  },
-  clearText: { color: '#C0392B', fontSize: 12, letterSpacing: 2, fontWeight: '600' },
+  meta: { fontFamily: SANS, fontSize: 10, color: MUTED },
+  clearButton: { marginTop: 16, padding: 14, borderWidth: 1, borderColor: '#C0392B', borderRadius: 4, alignItems: 'center' },
+  clearText: { fontFamily: SANS_SEMI, color: '#C0392B', fontSize: 12, letterSpacing: 2 },
 });

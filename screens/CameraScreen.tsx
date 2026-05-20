@@ -3,14 +3,23 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
   Alert, ActivityIndicator, Image,
 } from 'react-native';
+
+const LOGO = require('../assets/icon.png');
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
 import { saveToHistory } from '../utils/history';
 import { analyzePhotos } from '../utils/analyze';
 
-const BEIGE = '#F5F0E8';
-const BLACK = '#1A1A1A';
-const MUTED = '#9C8F7E';
+const BG = '#FFFFFF';
+const CARD = '#F5F5F5';
+const ACCENT = '#600000';
+const TEXT = '#000000';
+const MUTED = '#6B6B6B';
+
+const SERIF = 'CormorantGaramond_700Bold';
+const SANS = 'Poppins_400Regular';
+const SANS_SEMI = 'Poppins_600SemiBold';
+const SANS_BOLD = 'Poppins_700Bold';
 
 const STEPS = [
   { label: 'Brand Tag', hint: 'Point at the brand or care label inside the garment' },
@@ -19,7 +28,6 @@ const STEPS = [
 ];
 
 type CapturedPhoto = { uri: string; base64: string };
-
 type Phase = 'idle' | 'camera' | 'preview' | 'analyzing';
 
 export default function CameraScreen() {
@@ -107,7 +115,7 @@ export default function CameraScreen() {
   if (phase === 'analyzing') {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color={BLACK} style={{ marginBottom: 20 }} />
+        <ActivityIndicator size="large" color={ACCENT} style={{ marginBottom: 20 }} />
         <Text style={styles.analyzingText}>Analyzing your item...</Text>
         <Text style={styles.analyzingSub}>Claude is reviewing all 3 photos</Text>
       </View>
@@ -172,14 +180,16 @@ export default function CameraScreen() {
 
   return (
     <View style={styles.centered}>
-      <Text style={styles.logo}>FLIPPER</Text>
-      <Text style={styles.tagline}>your thrift-flipping tool</Text>
+      <Image source={LOGO} style={styles.logo} resizeMode="contain" />
+      <Text style={styles.tagline}>your thrift-flipping companion</Text>
 
       <View style={styles.stepPreview}>
         {STEPS.map((s, i) => (
           <View key={i} style={styles.stepRow}>
-            <View style={styles.stepNumber}><Text style={styles.stepNumberText}>{i + 1}</Text></View>
-            <View>
+            <View style={styles.stepNumber}>
+              <Text style={styles.stepNumberText}>{i + 1}</Text>
+            </View>
+            <View style={{ flex: 1 }}>
               <Text style={styles.stepName}>{s.label}</Text>
               <Text style={styles.stepDesc}>{s.hint}</Text>
             </View>
@@ -195,168 +205,47 @@ export default function CameraScreen() {
 }
 
 const CORNER = 28;
-const BORDER = 3;
+const CBORDER = 3;
 
 const styles = StyleSheet.create({
-  centered: {
-    flex: 1,
-    backgroundColor: BEIGE,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 32,
-  },
-  logo: {
-    fontSize: 42,
-    fontWeight: '900',
-    color: BLACK,
-    letterSpacing: 8,
-    marginBottom: 6,
-  },
-  tagline: {
-    fontSize: 13,
-    color: BLACK,
-    letterSpacing: 2,
-    opacity: 0.5,
-    marginBottom: 48,
-  },
-  stepPreview: {
-    width: '100%',
-    gap: 16,
-    marginBottom: 48,
-  },
-  stepRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 14,
-  },
-  stepNumber: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: BLACK,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 1,
-  },
-  stepNumberText: { color: BEIGE, fontSize: 13, fontWeight: '900' },
-  stepName: { fontSize: 14, fontWeight: '700', color: BLACK, marginBottom: 2 },
-  stepDesc: { fontSize: 12, color: MUTED, lineHeight: 16 },
-  button: {
-    backgroundColor: BLACK,
-    paddingVertical: 18,
-    paddingHorizontal: 64,
-    borderRadius: 4,
-  },
-  buttonText: { color: BEIGE, fontSize: 16, fontWeight: '700', letterSpacing: 3 },
-  analyzingText: {
-    fontSize: 20,
-    fontWeight: '900',
-    color: BLACK,
-    letterSpacing: 3,
-    marginBottom: 8,
-  },
-  analyzingSub: { fontSize: 13, color: BLACK, opacity: 0.4, letterSpacing: 1 },
+  centered: { flex: 1, backgroundColor: BG, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 32, paddingBottom: 60 },
+  logo: { width: 300, height: 240, marginBottom: -40 },
+  tagline: { fontFamily: SANS, fontSize: 13, color: TEXT, letterSpacing: 1.5, opacity: 0.45, marginBottom: 48 },
+  stepPreview: { width: '100%', gap: 16, marginBottom: 48 },
+  stepRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 14 },
+  stepNumber: { width: 28, height: 28, borderRadius: 14, backgroundColor: ACCENT, alignItems: 'center', justifyContent: 'center', marginTop: 1 },
+  stepNumberText: { fontFamily: SANS_BOLD, color: '#fff', fontSize: 13 },
+  stepName: { fontFamily: SANS_SEMI, fontSize: 14, color: TEXT, marginBottom: 2 },
+  stepDesc: { fontFamily: SANS, fontSize: 12, color: MUTED, lineHeight: 16 },
+  button: { backgroundColor: ACCENT, paddingVertical: 18, paddingHorizontal: 64, borderRadius: 4 },
+  buttonText: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 16, letterSpacing: 3 },
+  analyzingText: { fontFamily: SANS_BOLD, fontSize: 20, color: TEXT, letterSpacing: 2, marginBottom: 8 },
+  analyzingSub: { fontFamily: SANS, fontSize: 13, color: TEXT, opacity: 0.4, letterSpacing: 1 },
   cameraContainer: { flex: 1 },
   camera: { flex: 1 },
-  overlay: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 40,
-  },
-  stepIndicator: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 12,
-  },
-  stepDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-  },
+  overlay: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 40 },
+  stepIndicator: { flexDirection: 'row', gap: 8, marginBottom: 12 },
+  stepDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: 'rgba(255,255,255,0.3)' },
   stepDotActive: { backgroundColor: '#fff' },
-  stepLabel: {
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: '700',
-    letterSpacing: 1,
-    marginBottom: 28,
-    opacity: 0.9,
-  },
-  scanFrame: {
-    width: 240,
-    height: 240,
-    marginBottom: 20,
-  },
-  corner: {
-    position: 'absolute',
-    width: CORNER,
-    height: CORNER,
-    borderColor: '#fff',
-  },
-  topLeft: { top: 0, left: 0, borderTopWidth: BORDER, borderLeftWidth: BORDER },
-  topRight: { top: 0, right: 0, borderTopWidth: BORDER, borderRightWidth: BORDER },
-  bottomLeft: { bottom: 0, left: 0, borderBottomWidth: BORDER, borderLeftWidth: BORDER },
-  bottomRight: { bottom: 0, right: 0, borderBottomWidth: BORDER, borderRightWidth: BORDER },
-  scanHint: {
-    fontSize: 12,
-    color: '#fff',
-    opacity: 0.7,
-    letterSpacing: 1,
-    marginBottom: 32,
-    textAlign: 'center',
-    paddingHorizontal: 32,
-  },
-  captureButton: {
-    backgroundColor: '#fff',
-    paddingVertical: 18,
-    paddingHorizontal: 64,
-    borderRadius: 4,
-    marginBottom: 16,
-  },
-  captureText: { color: BLACK, fontSize: 16, fontWeight: '700', letterSpacing: 3 },
+  stepLabel: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 13, letterSpacing: 1, marginBottom: 28, opacity: 0.9 },
+  scanFrame: { width: 240, height: 240, marginBottom: 20 },
+  corner: { position: 'absolute', width: CORNER, height: CORNER, borderColor: '#fff' },
+  topLeft: { top: 0, left: 0, borderTopWidth: CBORDER, borderLeftWidth: CBORDER },
+  topRight: { top: 0, right: 0, borderTopWidth: CBORDER, borderRightWidth: CBORDER },
+  bottomLeft: { bottom: 0, left: 0, borderBottomWidth: CBORDER, borderLeftWidth: CBORDER },
+  bottomRight: { bottom: 0, right: 0, borderBottomWidth: CBORDER, borderRightWidth: CBORDER },
+  scanHint: { fontFamily: SANS, fontSize: 12, color: '#fff', opacity: 0.7, letterSpacing: 1, marginBottom: 32, textAlign: 'center', paddingHorizontal: 32 },
+  captureButton: { backgroundColor: '#fff', paddingVertical: 18, paddingHorizontal: 64, borderRadius: 4, marginBottom: 16 },
+  captureText: { fontFamily: SANS_SEMI, color: TEXT, fontSize: 16, letterSpacing: 3 },
   cancelButton: { paddingVertical: 10 },
-  cancelText: { color: '#fff', fontSize: 14, opacity: 0.7, letterSpacing: 1 },
-  previewContainer: { flex: 1, backgroundColor: BLACK },
+  cancelText: { fontFamily: SANS, color: '#fff', fontSize: 14, opacity: 0.7, letterSpacing: 1 },
+  previewContainer: { flex: 1, backgroundColor: TEXT },
   previewImage: { flex: 1 },
-  previewOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    padding: 24,
-    paddingBottom: 40,
-    alignItems: 'center',
-  },
-  previewLabel: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: 2,
-    marginBottom: 20,
-  },
-  previewButtons: {
-    flexDirection: 'row',
-    gap: 12,
-    width: '100%',
-  },
-  retakeButton: {
-    flex: 1,
-    paddingVertical: 16,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#fff',
-    alignItems: 'center',
-  },
-  retakeText: { color: '#fff', fontSize: 14, fontWeight: '700', letterSpacing: 2 },
-  nextButton: {
-    flex: 2,
-    paddingVertical: 16,
-    borderRadius: 4,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-  nextText: { color: BLACK, fontSize: 14, fontWeight: '900', letterSpacing: 2 },
+  previewOverlay: { position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.6)', padding: 24, paddingBottom: 40, alignItems: 'center' },
+  previewLabel: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 16, letterSpacing: 2, marginBottom: 20 },
+  previewButtons: { flexDirection: 'row', gap: 12, width: '100%' },
+  retakeButton: { flex: 1, paddingVertical: 16, borderRadius: 4, borderWidth: 1, borderColor: '#fff', alignItems: 'center' },
+  retakeText: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 14, letterSpacing: 2 },
+  nextButton: { flex: 2, paddingVertical: 16, borderRadius: 4, backgroundColor: '#fff', alignItems: 'center' },
+  nextText: { fontFamily: SANS_BOLD, color: TEXT, fontSize: 14, letterSpacing: 2 },
 });

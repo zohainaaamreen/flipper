@@ -4,10 +4,17 @@ import { useFocusEffect } from '@react-navigation/native';
 import { loadSettings, saveSettings, AppSettings, Platform } from '../utils/settings';
 import { clearHistory } from '../utils/history';
 
-const BEIGE = '#F5F0E8';
-const BLACK = '#1A1A1A';
+const BG = '#FFFFFF';
+const CARD = '#F5F5F5';
+const ACCENT = '#600000';
+const TEXT = '#000000';
+const MUTED = '#6B6B6B';
+const BORDER = '#E8E8E8';
 const GREEN = '#2D6A4F';
-const MUTED = '#9C8F7E';
+
+const SANS = 'Poppins_400Regular';
+const SANS_SEMI = 'Poppins_600SemiBold';
+const SERIF = 'CormorantGaramond_700Bold';
 
 const PLATFORMS: Platform[] = ['eBay', 'Poshmark', 'Depop', 'Mercari'];
 const THRESHOLDS = [5, 10, 15, 20, 25];
@@ -108,8 +115,8 @@ export default function SettingsScreen() {
         <Switch
           value={settings.notificationsEnabled}
           onValueChange={(val) => update({ notificationsEnabled: val })}
-          trackColor={{ false: '#ccc', true: GREEN }}
-          thumbColor={BEIGE}
+          trackColor={{ false: '#ccc', true: ACCENT }}
+          thumbColor="#fff"
         />
       </View>
 
@@ -119,98 +126,32 @@ export default function SettingsScreen() {
         <Text style={styles.dangerText}>Clear Scan History</Text>
       </TouchableOpacity>
 
-      <Text style={styles.version}>Flipper v0.1 · AI analysis coming soon</Text>
+      <Text style={styles.version}>FlipHunt v1.0</Text>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: { flex: 1, backgroundColor: BEIGE },
+  scroll: { flex: 1, backgroundColor: BG },
   container: { padding: 24, paddingTop: 32 },
-  pageTitle: {
-    fontSize: 28,
-    fontWeight: '900',
-    color: BLACK,
-    letterSpacing: 8,
-    marginBottom: 28,
-  },
-  sectionTitle: {
-    fontSize: 11,
-    color: MUTED,
-    letterSpacing: 2,
-    textTransform: 'uppercase',
-    marginBottom: 4,
-  },
-  sectionNote: {
-    fontSize: 11,
-    color: MUTED,
-    opacity: 0.7,
-    marginBottom: 14,
-  },
-  thresholdRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 8,
-  },
-  thresholdBtn: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#D0C8BB',
-    alignItems: 'center',
-  },
-  thresholdActive: {
-    backgroundColor: BLACK,
-    borderColor: BLACK,
-  },
-  thresholdText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: MUTED,
-  },
-  thresholdTextActive: {
-    color: BEIGE,
-  },
-  divider: { height: 1, backgroundColor: '#E0D9CE', marginVertical: 24 },
-  platformRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0D9CE',
-  },
-  platformName: { fontSize: 15, fontWeight: '600', color: BLACK },
-  platformCheck: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    borderColor: '#C0B8AC',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  platformCheckActive: {
-    backgroundColor: BLACK,
-    borderColor: BLACK,
-  },
-  checkMark: { color: BEIGE, fontSize: 13, fontWeight: '900' },
-  switchRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  switchLabel: { fontSize: 15, fontWeight: '600', color: BLACK, marginBottom: 2 },
-  switchNote: { fontSize: 11, color: MUTED, opacity: 0.7 },
-  dangerButton: {
-    paddingVertical: 14,
-    borderWidth: 1,
-    borderColor: '#C0392B',
-    borderRadius: 4,
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  dangerText: { color: '#C0392B', fontSize: 13, letterSpacing: 2, fontWeight: '600' },
-  version: { fontSize: 11, color: MUTED, opacity: 0.5, textAlign: 'center', letterSpacing: 0.5 },
+  pageTitle: { fontFamily: SERIF, fontSize: 32, color: TEXT, letterSpacing: 6, marginBottom: 28 },
+  sectionTitle: { fontFamily: SANS_SEMI, fontSize: 11, color: MUTED, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 4 },
+  sectionNote: { fontFamily: SANS, fontSize: 11, color: MUTED, opacity: 0.7, marginBottom: 14 },
+  thresholdRow: { flexDirection: 'row', gap: 8, marginBottom: 8 },
+  thresholdBtn: { flex: 1, paddingVertical: 10, borderRadius: 4, borderWidth: 1, borderColor: BORDER, alignItems: 'center' },
+  thresholdActive: { backgroundColor: ACCENT, borderColor: ACCENT },
+  thresholdText: { fontFamily: SANS_SEMI, fontSize: 13, color: MUTED },
+  thresholdTextActive: { color: '#fff' },
+  divider: { height: 1, backgroundColor: BORDER, marginVertical: 24 },
+  platformRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: BORDER },
+  platformName: { fontFamily: SANS_SEMI, fontSize: 15, color: TEXT },
+  platformCheck: { width: 24, height: 24, borderRadius: 12, borderWidth: 1.5, borderColor: BORDER, alignItems: 'center', justifyContent: 'center' },
+  platformCheckActive: { backgroundColor: ACCENT, borderColor: ACCENT },
+  checkMark: { color: '#fff', fontSize: 13 },
+  switchRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  switchLabel: { fontFamily: SANS_SEMI, fontSize: 15, color: TEXT, marginBottom: 2 },
+  switchNote: { fontFamily: SANS, fontSize: 11, color: MUTED, opacity: 0.7 },
+  dangerButton: { paddingVertical: 14, borderWidth: 1, borderColor: '#C0392B', borderRadius: 4, alignItems: 'center', marginBottom: 32 },
+  dangerText: { fontFamily: SANS_SEMI, color: '#C0392B', fontSize: 13, letterSpacing: 2 },
+  version: { fontFamily: SANS, fontSize: 11, color: MUTED, opacity: 0.5, textAlign: 'center', letterSpacing: 0.5 },
 });

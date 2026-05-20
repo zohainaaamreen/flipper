@@ -3,10 +3,18 @@ import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator } from 're
 import { Ionicons } from '@expo/vector-icons';
 import { fetchStyleImage } from '../utils/pexels';
 
-const BEIGE = '#F5F0E8';
-const BLACK = '#1A1A1A';
+const BG = '#FFFFFF';
+const CARD = '#F5F5F5';
+const ACCENT = '#600000';
+const TEXT = '#000000';
+const MUTED = '#6B6B6B';
+const BORDER = '#E8E8E8';
 const GREEN = '#2D6A4F';
-const MUTED = '#9C8F7E';
+
+const SERIF = 'CormorantGaramond_700Bold';
+const SANS = 'Poppins_400Regular';
+const SANS_SEMI = 'Poppins_600SemiBold';
+const SANS_BOLD = 'Poppins_700Bold';
 
 const MARKET_STATS = [
   { label: 'Avg Flip Profit', value: '$28', sub: 'per item this month' },
@@ -64,7 +72,6 @@ export default function TrendsScreen() {
     <ScrollView style={styles.scroll} contentContainerStyle={styles.container}>
       <Text style={styles.pageTitle}>TRENDS</Text>
 
-      {/* Market snapshot */}
       <Text style={styles.sectionTitle}>Market Snapshot</Text>
       <View style={styles.statsRow}>
         {MARKET_STATS.map(({ label, value, sub }) => (
@@ -76,12 +83,11 @@ export default function TrendsScreen() {
         ))}
       </View>
 
-      {/* Weekly insight */}
       <View style={styles.insightBox}>
         <View style={styles.insightTop}>
-          <Ionicons name="trending-up" size={16} color={GREEN} />
+          <Ionicons name="trending-up" size={16} color="#fff" />
           <Text style={styles.insightTitle}>{WEEKLY_INSIGHT.title}</Text>
-          <Text style={[styles.insightChange, { color: WEEKLY_INSIGHT.positive ? GREEN : '#C0392B' }]}>
+          <Text style={[styles.insightChange, { color: WEEKLY_INSIGHT.positive ? '#a8d5b5' : '#f5a5a5' }]}>
             {WEEKLY_INSIGHT.change}
           </Text>
         </View>
@@ -90,7 +96,6 @@ export default function TrendsScreen() {
 
       <View style={styles.divider} />
 
-      {/* Style cores */}
       <Text style={styles.sectionTitle}>Style Cores</Text>
       <Text style={styles.sectionNote}>Trending on Pinterest & Google — what to hunt for</Text>
       <View style={styles.coreGrid}>
@@ -140,7 +145,6 @@ export default function TrendsScreen() {
 
       <View style={styles.divider} />
 
-      {/* Hot brands */}
       <Text style={styles.sectionTitle}>Hot Resale Brands</Text>
       <Text style={styles.sectionNote}>Based on recent eBay sold listings</Text>
       {HOT_BRANDS.map(({ brand, avgSale, demand, change }) => {
@@ -165,54 +169,54 @@ export default function TrendsScreen() {
 }
 
 const styles = StyleSheet.create({
-  scroll: { flex: 1, backgroundColor: BEIGE },
+  scroll: { flex: 1, backgroundColor: BG },
   container: { padding: 24, paddingTop: 32, paddingBottom: 48 },
-  pageTitle: { fontSize: 28, fontWeight: '900', color: BLACK, letterSpacing: 8, marginBottom: 24 },
-  sectionTitle: { fontSize: 11, color: MUTED, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8 },
-  sectionNote: { fontSize: 11, color: MUTED, opacity: 0.7, marginBottom: 12 },
+  pageTitle: { fontFamily: SERIF, fontSize: 32, color: TEXT, letterSpacing: 6, marginBottom: 24 },
+  sectionTitle: { fontFamily: SANS_SEMI, fontSize: 11, color: MUTED, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8 },
+  sectionNote: { fontFamily: SANS, fontSize: 11, color: MUTED, opacity: 0.7, marginBottom: 12 },
 
   statsRow: { flexDirection: 'row', gap: 8, marginBottom: 14 },
-  statCard: { flex: 1, backgroundColor: '#EDE8DF', borderRadius: 6, padding: 12, alignItems: 'center' },
-  statValue: { fontSize: 15, fontWeight: '900', color: BLACK, textAlign: 'center', marginBottom: 2 },
-  statLabel: { fontSize: 9, color: MUTED, letterSpacing: 1, textTransform: 'uppercase', textAlign: 'center' },
-  statSub: { fontSize: 9, color: MUTED, opacity: 0.6, textAlign: 'center', marginTop: 2 },
+  statCard: { flex: 1, backgroundColor: CARD, borderRadius: 6, padding: 12, alignItems: 'center' },
+  statValue: { fontFamily: SANS_BOLD, fontSize: 15, color: TEXT, textAlign: 'center', marginBottom: 2 },
+  statLabel: { fontFamily: SANS_SEMI, fontSize: 9, color: MUTED, letterSpacing: 1, textTransform: 'uppercase', textAlign: 'center' },
+  statSub: { fontFamily: SANS, fontSize: 9, color: MUTED, opacity: 0.6, textAlign: 'center', marginTop: 2 },
 
-  insightBox: { backgroundColor: BLACK, borderRadius: 6, padding: 16 },
+  insightBox: { backgroundColor: ACCENT, borderRadius: 6, padding: 16 },
   insightTop: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
-  insightTitle: { flex: 1, fontSize: 13, fontWeight: '700', color: BEIGE },
-  insightChange: { fontSize: 13, fontWeight: '900' },
-  insightBody: { fontSize: 12, color: BEIGE, opacity: 0.7, lineHeight: 18 },
+  insightTitle: { fontFamily: SANS_SEMI, flex: 1, fontSize: 13, color: '#fff' },
+  insightChange: { fontFamily: SANS_BOLD, fontSize: 13 },
+  insightBody: { fontFamily: SANS, fontSize: 12, color: '#fff', opacity: 0.85, lineHeight: 18 },
 
-  divider: { height: 1, backgroundColor: '#E0D9CE', marginVertical: 24 },
+  divider: { height: 1, backgroundColor: BORDER, marginVertical: 24 },
 
   coreGrid: { gap: 12, marginBottom: 8 },
-  coreCard: { backgroundColor: '#EDE8DF', borderRadius: 8, overflow: 'hidden' },
+  coreCard: { backgroundColor: CARD, borderRadius: 8, overflow: 'hidden' },
   imageContainer: { position: 'relative' },
   coreImage: { width: '100%', height: 180 },
-  imagePlaceholder: { width: '100%', height: 180, backgroundColor: '#E0D9CE', alignItems: 'center', justifyContent: 'center' },
+  imagePlaceholder: { width: '100%', height: 180, backgroundColor: BORDER, alignItems: 'center', justifyContent: 'center' },
   heatBadgeOverlay: { position: 'absolute', top: 10, right: 10, paddingVertical: 4, paddingHorizontal: 10, borderRadius: 4 },
-  heatText: { color: '#fff', fontSize: 10, fontWeight: '700', letterSpacing: 1 },
+  heatText: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 10, letterSpacing: 1 },
   coreCardBody: { padding: 14 },
   coreCardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
-  coreName: { fontSize: 16, fontWeight: '900', color: BLACK, letterSpacing: 1 },
-  coreSource: { fontSize: 10, color: MUTED },
+  coreName: { fontFamily: SANS_BOLD, fontSize: 16, color: TEXT, letterSpacing: 0.5 },
+  coreSource: { fontFamily: SANS, fontSize: 10, color: MUTED },
 
-  coreStats: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#E4DFD6', borderRadius: 6, padding: 10, marginBottom: 12 },
+  coreStats: { flexDirection: 'row', alignItems: 'center', backgroundColor: BORDER, borderRadius: 6, padding: 10, marginBottom: 12 },
   coreStat: { flex: 1, alignItems: 'center' },
-  coreStatValue: { fontSize: 14, fontWeight: '900', color: BLACK, marginBottom: 2 },
-  coreStatLabel: { fontSize: 9, color: MUTED, letterSpacing: 0.5, textTransform: 'uppercase' },
-  coreStatDivider: { width: 1, height: 28, backgroundColor: '#CEC8BF' },
+  coreStatValue: { fontFamily: SANS_BOLD, fontSize: 14, color: TEXT, marginBottom: 2 },
+  coreStatLabel: { fontFamily: SANS, fontSize: 9, color: MUTED, letterSpacing: 0.5, textTransform: 'uppercase' },
+  coreStatDivider: { width: 1, height: 28, backgroundColor: '#D0D0D0' },
 
-  coreLookFor: { fontSize: 12, color: BLACK, opacity: 0.6, lineHeight: 17 },
+  coreLookFor: { fontFamily: SANS, fontSize: 12, color: TEXT, opacity: 0.6, lineHeight: 17 },
 
-  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#E0D9CE' },
-  rowBrand: { fontSize: 15, fontWeight: '700', color: BLACK },
-  rowMeta: { fontSize: 12, color: MUTED, marginTop: 2 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: BORDER },
+  rowBrand: { fontFamily: SANS_BOLD, fontSize: 15, color: TEXT },
+  rowMeta: { fontFamily: SANS, fontSize: 12, color: MUTED, marginTop: 2 },
   rowRight: { alignItems: 'flex-end', gap: 4 },
-  changeText: { fontSize: 13, fontWeight: '700' },
+  changeText: { fontFamily: SANS_BOLD, fontSize: 13 },
   demandBadge: { paddingVertical: 3, paddingHorizontal: 8, borderRadius: 3 },
   demandHigh: { backgroundColor: GREEN },
   demandMed: { backgroundColor: '#B7860B' },
   demandLow: { backgroundColor: MUTED },
-  demandText: { color: '#fff', fontSize: 9, fontWeight: '700', letterSpacing: 1 },
+  demandText: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 9, letterSpacing: 1 },
 });

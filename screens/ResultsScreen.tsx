@@ -6,10 +6,18 @@ import {
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { loadHistory, ScanRecord, PlatformPrices } from '../utils/history';
 
-const BEIGE = '#F5F0E8';
-const BLACK = '#1A1A1A';
+const BG = '#FFFFFF';
+const CARD = '#F5F5F5';
+const ACCENT = '#600000';
+const TEXT = '#000000';
+const MUTED = '#6B6B6B';
+const BORDER = '#E8E8E8';
 const GREEN = '#2D6A4F';
-const MUTED = '#9C8F7E';
+
+const SERIF = 'CormorantGaramond_700Bold';
+const SANS = 'Poppins_400Regular';
+const SANS_SEMI = 'Poppins_600SemiBold';
+const SANS_BOLD = 'Poppins_700Bold';
 
 const PLATFORMS: { key: keyof PlatformPrices; label: string }[] = [
   { key: 'eBay', label: 'eBay' },
@@ -37,7 +45,7 @@ export default function ResultsScreen() {
   if (!data) {
     return (
       <View style={styles.empty}>
-        <ActivityIndicator color={BLACK} />
+        <ActivityIndicator color={ACCENT} />
         <Text style={styles.emptySub}>No scan results yet</Text>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Camera' as never)}>
           <Text style={styles.buttonText}>Scan Something</Text>
@@ -145,106 +153,41 @@ export default function ResultsScreen() {
 }
 
 const styles = StyleSheet.create({
-  scroll: { flex: 1, backgroundColor: BEIGE },
+  scroll: { flex: 1, backgroundColor: BG },
   container: { alignItems: 'center', paddingBottom: 48 },
-  empty: {
-    flex: 1, backgroundColor: BEIGE,
-    alignItems: 'center', justifyContent: 'center',
-    gap: 16, paddingHorizontal: 32,
-  },
-  emptySub: { fontSize: 13, color: MUTED, letterSpacing: 1 },
-  photoStrip: { width: '100%', backgroundColor: BLACK },
+  empty: { flex: 1, backgroundColor: BG, alignItems: 'center', justifyContent: 'center', gap: 16, paddingHorizontal: 32 },
+  emptySub: { fontFamily: SANS, fontSize: 13, color: MUTED, letterSpacing: 1 },
+  photoStrip: { width: '100%', backgroundColor: TEXT },
   photoStripContent: { padding: 12, gap: 10 },
   photoThumb: { alignItems: 'center' },
   thumbImage: { width: 110, height: 130, borderRadius: 4 },
-  thumbLabel: {
-    color: '#fff',
-    fontSize: 10,
-    letterSpacing: 1,
-    marginTop: 6,
-    opacity: 0.7,
-    textTransform: 'uppercase',
-  },
-  header: {
-    alignItems: 'center',
-    paddingHorizontal: 32,
-    paddingTop: 28,
-    paddingBottom: 4,
-    width: '100%',
-  },
-  brand: {
-    fontSize: 30, fontWeight: '900', color: BLACK,
-    letterSpacing: 4, marginBottom: 6, textAlign: 'center',
-  },
-  item: {
-    fontSize: 13, color: MUTED, letterSpacing: 1,
-    marginBottom: 24, textAlign: 'center',
-  },
-  badge: {
-    paddingVertical: 10, paddingHorizontal: 40,
-    borderRadius: 4, marginBottom: 20,
-  },
-  badgeText: { color: '#fff', fontSize: 20, fontWeight: '900', letterSpacing: 6 },
+  thumbLabel: { fontFamily: SANS, color: '#fff', fontSize: 10, letterSpacing: 1, marginTop: 6, opacity: 0.7, textTransform: 'uppercase' },
+  header: { alignItems: 'center', paddingHorizontal: 32, paddingTop: 28, paddingBottom: 4, width: '100%' },
+  brand: { fontFamily: SERIF, fontSize: 34, color: TEXT, letterSpacing: 3, marginBottom: 6, textAlign: 'center' },
+  item: { fontFamily: SANS, fontSize: 13, color: MUTED, letterSpacing: 1, marginBottom: 24, textAlign: 'center' },
+  badge: { paddingVertical: 10, paddingHorizontal: 40, borderRadius: 4, marginBottom: 20 },
+  badgeText: { fontFamily: SANS_BOLD, color: '#fff', fontSize: 20, letterSpacing: 6 },
   confidenceRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 20 },
-  confidenceLabel: { fontSize: 13, color: MUTED, letterSpacing: 1 },
-  confidenceValue: { fontSize: 22, fontWeight: '900', color: BLACK },
-  infoBox: {
-    width: '100%', backgroundColor: '#EDE8DF',
-    padding: 16, marginBottom: 4,
-  },
-  infoBoxLabel: {
-    fontSize: 10, color: MUTED, letterSpacing: 2,
-    textTransform: 'uppercase', marginBottom: 6,
-  },
-  infoBoxText: { fontSize: 14, color: BLACK, lineHeight: 20 },
-  divider: { width: '100%', height: 1, backgroundColor: '#E0D9CE', marginVertical: 20 },
-  detailsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 32,
-    gap: 10,
-    width: '100%',
-  },
-  detailCard: {
-    flex: 1,
-    minWidth: '45%',
-    backgroundColor: '#EDE8DF',
-    borderRadius: 6,
-    padding: 14,
-  },
+  confidenceLabel: { fontFamily: SANS, fontSize: 13, color: MUTED, letterSpacing: 1 },
+  confidenceValue: { fontFamily: SANS_BOLD, fontSize: 22, color: TEXT },
+  infoBox: { width: '100%', backgroundColor: CARD, padding: 16, marginBottom: 4 },
+  infoBoxLabel: { fontFamily: SANS_SEMI, fontSize: 10, color: MUTED, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 6 },
+  infoBoxText: { fontFamily: SANS, fontSize: 14, color: TEXT, lineHeight: 20 },
+  divider: { width: '100%', height: 1, backgroundColor: BORDER, marginVertical: 20 },
+  detailsGrid: { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 32, gap: 10, width: '100%' },
+  detailCard: { flex: 1, minWidth: '45%', backgroundColor: CARD, borderRadius: 6, padding: 14 },
   detailCardFull: { minWidth: '100%' },
-  detailLabel: {
-    fontSize: 10, color: MUTED, letterSpacing: 2,
-    textTransform: 'uppercase', marginBottom: 6,
-  },
-  detailValue: { fontSize: 14, fontWeight: '700', color: BLACK, lineHeight: 18 },
-  sectionTitle: {
-    fontSize: 11, color: MUTED, letterSpacing: 2,
-    textTransform: 'uppercase', alignSelf: 'flex-start',
-    paddingHorizontal: 32, marginBottom: 10,
-  },
+  detailLabel: { fontFamily: SANS_SEMI, fontSize: 10, color: MUTED, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 6 },
+  detailValue: { fontFamily: SANS_SEMI, fontSize: 14, color: TEXT, lineHeight: 18 },
+  sectionTitle: { fontFamily: SANS_SEMI, fontSize: 11, color: MUTED, letterSpacing: 2, textTransform: 'uppercase', alignSelf: 'flex-start', paddingHorizontal: 32, marginBottom: 10 },
   platformTable: { width: '100%', paddingHorizontal: 32 },
-  platformRow: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    alignItems: 'center', paddingVertical: 13,
-    borderBottomWidth: 1, borderBottomColor: '#E0D9CE',
-  },
-  platformName: { fontSize: 15, fontWeight: '600', color: BLACK },
-  platformPrice: { fontSize: 16, fontWeight: '900', color: BLACK },
-  suggestedRow: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    width: '100%', alignItems: 'center',
-    paddingHorizontal: 32, marginBottom: 8,
-  },
-  suggestedLabel: { fontSize: 13, color: MUTED, letterSpacing: 1 },
-  suggestedValue: { fontSize: 22, fontWeight: '900', color: GREEN },
-  scannedOn: {
-    fontSize: 11, color: MUTED, opacity: 0.6,
-    marginBottom: 32, marginTop: 4, letterSpacing: 0.5,
-  },
-  button: {
-    backgroundColor: BLACK, paddingVertical: 18,
-    paddingHorizontal: 64, borderRadius: 4,
-  },
-  buttonText: { color: BEIGE, fontSize: 16, fontWeight: '700', letterSpacing: 3 },
+  platformRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 13, borderBottomWidth: 1, borderBottomColor: BORDER },
+  platformName: { fontFamily: SANS_SEMI, fontSize: 15, color: TEXT },
+  platformPrice: { fontFamily: SANS_BOLD, fontSize: 16, color: TEXT },
+  suggestedRow: { flexDirection: 'row', justifyContent: 'space-between', width: '100%', alignItems: 'center', paddingHorizontal: 32, marginBottom: 8 },
+  suggestedLabel: { fontFamily: SANS, fontSize: 13, color: MUTED, letterSpacing: 1 },
+  suggestedValue: { fontFamily: SANS_BOLD, fontSize: 22, color: ACCENT },
+  scannedOn: { fontFamily: SANS, fontSize: 11, color: MUTED, opacity: 0.6, marginBottom: 32, marginTop: 4, letterSpacing: 0.5 },
+  button: { backgroundColor: ACCENT, paddingVertical: 18, paddingHorizontal: 64, borderRadius: 4 },
+  buttonText: { fontFamily: SANS_SEMI, color: '#fff', fontSize: 16, letterSpacing: 3 },
 });
